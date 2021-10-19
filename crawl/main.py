@@ -6,7 +6,9 @@ from models.notion import Notion
 from models.regame_info import RegameInfo
 
 
-def main():
+def main(event, context):
+    print(event)
+    print(context)
     session = HTMLSession()
     notion = Notion()
     get_regame(session, notion, "https://realdgame.jp/event/")
@@ -20,4 +22,4 @@ def get_regame(session, notion, url, archive=False):
 
 
 if __name__ == '__main__':
-    main()
+    main(None, None)
