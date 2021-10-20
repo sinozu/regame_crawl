@@ -1,4 +1,4 @@
-name: terraform plan
+name: terraform apply
 
 on:
   push:
@@ -11,7 +11,7 @@ defaults:
   run:
     working-directory: terraform
 jobs:
-  plan:
+  apply:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,4 +34,4 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -var 'notion_api_key=${{ secrets.NOTION_API_KEY }}' -var 'notion_database_id=${{ secrets.NOTION_DATABASE_ID }}'
+        run: terraform apply  -auto-approve -var 'notion_api_key=${{ secrets.NOTION_API_KEY }}' -var 'notion_database_id=${{ secrets.NOTION_DATABASE_ID }}'
