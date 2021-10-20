@@ -1,0 +1,37 @@
+name: terraform plan
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+
+defaults:
+  run:
+    working-directory: terraform
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1.3.2
+        with:
+           terraform_version: 1.0.9
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -var 'notion_api_key=${{ secrets.NOTION_API_KEY }}' -var 'notion_database_id=${{ secrets.NOTION_DATABASE_ID }}'
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -var 'notion_api_key=${{ secrets.NOTION_API_KEY }}' -var 'notion_database_id=${{ secrets.NOTION_DATABASE_ID }}'

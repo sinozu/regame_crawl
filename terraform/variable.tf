@@ -1,17 +1,17 @@
 variable "project_name" {
-    type = string
-    default = "proven-grid-329512"
+  type    = string
+  default = "proven-grid-329512"
 }
 
 variable "notion_api_key" {
-    type = string
+  type = string
 }
 
 variable "notion_database_id" {
-    type = string
+  type = string
 }
 
 variable "notion_version" {
-    type = string
-    default = "2021-08-16"
+  type    = string
+  default = "2021-08-16"
 }
