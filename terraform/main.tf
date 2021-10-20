@@ -3,6 +3,12 @@ provider "google" {
   region  = "asia-northeast1"
 }
 
+terraform {
+  backend "gcs" {
+    bucket  = "regame-crawl-terraform-bucket"
+  }
+}
+
 data "archive_file" "function_zip" {
   type        = "zip"
   source_dir  = "${path.module}/../crawl"
@@ -61,5 +67,25 @@ resource "google_cloud_scheduler_job" "regame_crawl_scheduler" {
   pubsub_target {
     topic_name = google_pubsub_topic.regame_crawl_pubsub.id
     data       = base64encode("test")
+  }
+}
+
+## tfstate
+resource "google_storage_bucket" "regame-crawl-terraform-state-store" {
+  name     = "regame-crawl-terraform-bucket"
+  location = "us-west1"
+  storage_class = "REGIONAL"
+
+  versioning {
+    enabled = true
+  }
+
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      num_newer_versions = 5
+    }
   }
 }
