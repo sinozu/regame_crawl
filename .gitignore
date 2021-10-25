@@ -138,3 +138,5 @@ terraform/*.tfstate
 terraform/*.tfstate.backup
 terraform/.terraform.*
 terraform/files/functions.zip
+
+.DS_Store

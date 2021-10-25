@@ -89,3 +89,11 @@ resource "google_storage_bucket" "regame-crawl-terraform-state-store" {
     }
   }
 }
+
+resource "google_monitoring_notification_channel" "basic" {
+  display_name = "Error Notification To Email"
+  type         = "email"
+  labels = {
+    email_address = "${var.error_notify_email}"
+  }
+}
