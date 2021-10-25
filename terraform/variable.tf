@@ -15,3 +15,7 @@ variable "notion_version" {
   type    = string
   default = "2021-08-16"
 }
+
+variable "error_notify_email" {
+  type = string
+}

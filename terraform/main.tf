@@ -5,7 +5,7 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    bucket  = "regame-crawl-terraform-bucket"
+    bucket = "regame-crawl-terraform-bucket"
   }
 }
 
@@ -72,8 +72,8 @@ resource "google_cloud_scheduler_job" "regame_crawl_scheduler" {
 
 ## tfstate
 resource "google_storage_bucket" "regame-crawl-terraform-state-store" {
-  name     = "regame-crawl-terraform-bucket"
-  location = "us-west1"
+  name          = "regame-crawl-terraform-bucket"
+  location      = "us-west1"
   storage_class = "REGIONAL"
 
   versioning {
@@ -87,5 +87,13 @@ resource "google_storage_bucket" "regame-crawl-terraform-state-store" {
     condition {
       num_newer_versions = 5
     }
+  }
+}
+
+resource "google_monitoring_notification_channel" "basic" {
+  display_name = "Error Notification To Email"
+  type         = "email"
+  labels = {
+    email_address = "${var.error_notify_email}"
   }
 }
